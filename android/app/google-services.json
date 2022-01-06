@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1077431777472",
+    "project_id": "track4you-2e942",
+    "storage_bucket": "track4you-2e942.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077431777472:android:f4f54901bb5c59ff7e9525",
+        "android_client_info": {
+          "package_name": "com.hacknroll.track_4_you"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077431777472-s6j3l2s6lh2s141ufsqgfhcj6bvth6ss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQfvULBfONViAn0Buma6RfLL8-TAKe47Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077431777472-s6j3l2s6lh2s141ufsqgfhcj6bvth6ss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

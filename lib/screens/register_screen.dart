@@ -1,18 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:track_4_you/screens/home_screen.dart';
-import 'register_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:track_4_you/models/user_model.dart';
+import 'package:track_4_you/screens/home_screen.dart';
+import 'package:track_4_you/screens/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String id = 'login_screen';
+class RegisterScreen extends StatefulWidget {
+  static const String id = 'register_screen';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
@@ -38,9 +41,43 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 48.0,
             ),
             TextFormField(
-              controller: emailController,
+              keyboardType: TextInputType.name,
+              textAlign: TextAlign.center,
+              controller: nameController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return ("Please enter your Name");
+                }
+                //reg expression for email validation
+                return null;
+              },
+              onSaved: (value) {
+                nameController.text = value!;
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter your First Name',
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueAccent, width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            TextFormField(
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
+              controller: emailController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return ("Please enter your email");
@@ -63,13 +100,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(32.0)),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                  borderSide: BorderSide(color: Colors.blueAccent, width: 1.0),
                   borderRadius: BorderRadius.all(Radius.circular(32.0)),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                  borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(32.0)),
                 ),
               ),
@@ -78,13 +113,13 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 8.0,
             ),
             TextFormField(
-              controller: passwordController,
               obscureText: true,
               textAlign: TextAlign.center,
+              controller: passwordController,
               validator: (value) {
                 RegExp regex = new RegExp(r'^.{6,}$');
                 if (value!.isEmpty) {
-                  return ("Password is required for login");
+                  return ("Password is required for registration");
                 }
                 if (!regex.hasMatch(value)) {
                   return ("Enter a valid password (Min. 6 characters)");
@@ -94,20 +129,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 passwordController.text = value!;
               },
               decoration: InputDecoration(
-                hintText: 'Enter your password',
+                hintText: 'Enter your password (Min. 6 characters)',
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(32.0)),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                  borderSide: BorderSide(color: Colors.blueAccent, width: 1.0),
                   borderRadius: BorderRadius.all(Radius.circular(32.0)),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                  borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(32.0)),
                 ),
               ),
@@ -116,37 +149,37 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24.0,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: EdgeInsets.symmetric(vertical: 12.0),
               child: Material(
-                color: Colors.lightBlueAccent,
+                color: Colors.blueAccent,
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () {
-                    signIn(emailController.text, passwordController.text);
-                  },
+                  onPressed: () async {},
                   minWidth: 200.0,
                   height: 42.0,
                   child: Text(
-                    'Log In',
+                    'Register',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Material(
-                color: Colors.lightBlueAccent,
+                color: Colors.blueAccent,
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, RegisterScreen.id);
+                    signUp(emailController.text, passwordController.text);
                   },
                   minWidth: 200.0,
                   height: 42.0,
                   child: Text(
-                    'Register new account',
+                    'Back',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -157,19 +190,40 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-//login function
-  void signIn(String email, String password) async {
+  void signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       await _auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-                Fluttertoast.showToast(msg: "Login successful"),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MyHomePage())),
-              })
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {postDetailsToFirestore()})
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
     }
+  }
+
+  postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.name = nameController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => MyHomePage()),
+        (route) => false);
   }
 }

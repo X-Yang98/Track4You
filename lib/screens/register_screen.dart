@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:track_4_you/models/user_model.dart';
 import 'package:track_4_you/screens/home_screen.dart';
 import 'package:track_4_you/screens/login_screen.dart';
 
@@ -14,7 +11,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -48,7 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 if (value!.isEmpty) {
                   return ("Please enter your Name");
                 }
-                //reg expression for email validation
                 return null;
               },
               onSaved: (value) {
@@ -124,6 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 if (!regex.hasMatch(value)) {
                   return ("Enter a valid password (Min. 6 characters)");
                 }
+                return null;
               },
               onSaved: (value) {
                 passwordController.text = value!;
@@ -155,7 +151,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text);
+                      if (newUser != null) {
+                        Navigator.pushNamed(context, MyHomePage.id);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
                   minWidth: 200.0,
                   height: 42.0,
                   child: Text(
@@ -173,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: () {
-                    signUp(emailController.text, passwordController.text);
+                    Navigator.pushNamed(context, LoginScreen.id);
                   },
                   minWidth: 200.0,
                   height: 42.0,
@@ -188,42 +196,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
-  }
-
-  void signUp(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
-    }
-  }
-
-  postDetailsToFirestore() async {
-    // calling our firestore
-    // calling our user model
-    // sedning these values
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-
-    UserModel userModel = UserModel();
-
-    // writing all the values
-    userModel.email = user!.email;
-    userModel.name = nameController.text;
-
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-    Fluttertoast.showToast(msg: "Account created successfully :) ");
-
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => MyHomePage()),
-        (route) => false);
   }
 }

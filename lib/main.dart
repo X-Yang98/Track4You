@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:track_4_you/screens/add_finance_screen.dart';
+import 'package:track_4_you/screens/add_health_screen.dart';
+import 'package:track_4_you/screens/add_leetcode_screen.dart';
 import 'package:track_4_you/screens/finance_screen.dart';
 import 'package:track_4_you/screens/health_screen.dart';
 import 'package:track_4_you/screens/home_screen.dart';
@@ -31,8 +33,10 @@ class MyApp extends StatelessWidget {
         FinanceScreen.id: (context) => FinanceScreen(),
         LeetcodeScreen.id: (context) => LeetcodeScreen(),
         HealthScreen.id: (context) => HealthScreen(),
+        AddHealthScreen.id: (context) => HealthScreen(),
         StudiesScreen.id: (context) => StudiesScreen(),
         AddFinanceScreen.id: (context) => AddFinanceScreen(),
+        AddLeetcodeScreen.id: (context) => AddLeetcodeScreen(),
       },
     );
   }

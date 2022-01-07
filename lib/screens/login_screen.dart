@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:track_4_you/screens/home_screen.dart';
-import 'register_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:track_4_you/screens/home_screen.dart';
+
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -21,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[900],
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -30,6 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Container(
+                child: Image.asset('images/logo.png'),
+                height: 200.0,
+              ),
               Container(
                 child: Text(
                   'Track4You',
@@ -167,21 +173,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
-                child: Material(
-                  color: Colors.lightBlueAccent,
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                  elevation: 5.0,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RegisterScreen.id);
-                    },
-                    minWidth: 200.0,
-                    height: 42.0,
-                    child: Text(
-                      'Register new account',
-                    ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(context, RegisterScreen.id,
+                      (Route<dynamic> route) => false);
+                },
+                child: Text(
+                  'No account? Sign up now!',
+                  style: TextStyle(
+                    color: Colors.lightBlueAccent,
+                    fontSize: 15.0,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ),

@@ -25,12 +25,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: <Widget>[
             Container(
               child: Image.asset('images/logo.png'),
-              height: 200.0,
+              height: 250.0,
             ),
             Text(
               'Task4U',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 30, color: Colors.black),
+              style: TextStyle(fontSize: 40, color: Colors.white),
             ),
             SizedBox(
               height: 90.0,

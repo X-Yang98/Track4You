@@ -43,7 +43,7 @@ class _FinanceScreenState extends State<FinanceScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text('Finances'),
+        title: Text('Finance'),
         backgroundColor: Colors.grey[850],
       ),
       floatingActionButton: FloatingActionButton(
@@ -142,7 +142,7 @@ class TargetBubble extends StatelessWidget {
       Key? key})
       : progress = double.parse(current) / double.parse(goal),
         percent = (double.parse(current) / double.parse(goal) * 100)
-            .toStringAsFixed(2),
+            .toStringAsFixed(0),
         super(key: key);
 
   fo(
@@ -151,7 +151,7 @@ class TargetBubble extends StatelessWidget {
     var uid = loggedInUser!.uid;
     _firestore.collection('financeTasks').doc(docId).update({
       'current':
-          (double.parse(current) + double.parse(addOn)).toStringAsFixed(2)
+          (double.parse(current) + double.parse(addOn)).toStringAsFixed(0)
     }).catchError((e) => print(e));
   }
 
@@ -172,10 +172,12 @@ class TargetBubble extends StatelessWidget {
               radius: 120.0,
               lineWidth: 13.0,
               animation: true,
-              percent: progress,
+              percent: progress >= 1 ? 1 : progress,
               center: Text(
-                "$percent%",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                progress >= 1 ? "Completed" : "$percent%",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: progress >= 1 ? 17.0 : 20.0),
               ),
               footer: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -185,7 +187,8 @@ class TargetBubble extends StatelessWidget {
                 ),
               ),
               circularStrokeCap: CircularStrokeCap.round,
-              progressColor: Colors.orangeAccent,
+              progressColor:
+                  progress >= 1 ? Colors.greenAccent : Colors.orangeAccent,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -1,5 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+
 import 'leetPair.dart';
 
 class LeetCodeBar extends StatelessWidget {
@@ -20,11 +21,12 @@ class LeetCodeBar extends StatelessWidget {
     ];
 
     return Container(
-        height: 400,
-        padding: EdgeInsets.all(20),
-        child: charts.BarChart(
-          series,
-          animate: true,
-        ));
+      height: 400,
+      padding: EdgeInsets.all(20),
+      child: charts.BarChart(
+        series,
+        animate: true,
+      ),
+    );
   }
 }

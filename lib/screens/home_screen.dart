@@ -49,9 +49,27 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-              width: double.infinity,
-              child: Text('Welcome back, ' + displayName! + '!',
-                  style: TextStyle(fontSize: 32, color: Colors.white)),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Welcome back!',
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    displayName!,
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: ListView(

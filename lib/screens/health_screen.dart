@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'add_finance_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+
+import 'add_health_screen.dart';
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+User? loggedInUser;
 
 class HealthScreen extends StatefulWidget {
   const HealthScreen({Key? key}) : super(key: key);
@@ -15,13 +19,23 @@ class HealthScreen extends StatefulWidget {
 }
 
 class _HealthScreenState extends State<HealthScreen> {
-  final TextEditingController minsController = TextEditingController();
-  final _firestore = FirebaseFirestore.instance;
-  User? loggiedInUser = FirebaseAuth.instance.currentUser;
+  final _auth = FirebaseAuth.instance;
 
-  void getGoals() async {
-    final goals = await _firestore.collection('financeTasks').get();
-    for (var goal in goals.docs) {}
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    final User? user = _auth.currentUser;
+
+    try {
+      loggedInUser = user;
+      print(loggedInUser?.email);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -33,7 +47,9 @@ class _HealthScreenState extends State<HealthScreen> {
         backgroundColor: Colors.grey[850],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, AddHealthScreen.id);
+        },
         backgroundColor: Colors.tealAccent,
         child: Icon(
           Icons.add,
@@ -46,9 +62,6 @@ class _HealthScreenState extends State<HealthScreen> {
         child: Column(
           children: const <Widget>[
             HealthGoalStream(),
-            TextField(
-              textAlign: TextAlign.center,
-            )
           ],
         ),
       ),
@@ -61,71 +74,80 @@ class HealthGoalStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return StreamBuilder<QuerySnapshot>(
-    //   stream: _firestore.collection('messages').snapshots(),
-    //   builder: (context, snapshot) {
-    //     if (!snapshot.hasData) {
-    //       return Center(
-    //         child: CircularProgressIndicator(
-    //           backgroundColor: Colors.lightBlueAccent,
-    //         ),
-    //       );
-    //     }
-    //     List<TargetBubble> targetsBubbles = [];
-    //     final targets = snapshot.data!.docs
-    //         .reversed; // reverse order of list --> new message at bottom of list
-    //
-    //     for (var target in targets) {
-    //       final goal = target['goal'];
-    //       final current = target['current'];
-    //       final date = target['date'];
-    //
-    //       final targetBubble = TargetBubble(
-    //         goal: goal,
-    //         current: current,
-    //         date: date,
-    //       );
-    //       targetsBubbles.add(targetBubble);
-    //     }
-    return Expanded(
-      child: ListView(
-        padding: EdgeInsets.symmetric(
-          vertical: 10.0,
-        ),
-        children: //targets,
-            [
-          TargetBubble(
-            name: 'Total minutes',
-            goal: '1000',
-            current: '600',
-            date: '21-1-22',
-          ),
-        ],
-      ),
-    );
-    //   },
-    // );
+    return StreamBuilder<QuerySnapshot>(
+        stream: _firestore
+            .collection('healthTasks')
+            .where('uid', isEqualTo: loggedInUser!.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.tealAccent,
+              ),
+            );
+          }
+          List<HealthBubble> healthBubbles = [];
+          final healths = snapshot.data!.docs
+              .reversed; // reverse order of list --> new message at bottom of list
+
+          for (var health in healths) {
+            final activity = health['activity'];
+            final targetHours = health['targetHours'];
+            final currentHours = health['targetHours'];
+            final docId = health.reference.id;
+
+            final healthBubble = HealthBubble(
+              activity: activity,
+              targetHours: targetHours,
+              currentHours: currentHours,
+              docId: docId,
+            );
+            healthBubbles.add(healthBubble);
+          }
+          return Expanded(
+            child: ListView(
+              padding: EdgeInsets.symmetric(
+                vertical: 10.0,
+              ),
+              children: //targets,
+                  healthBubbles,
+            ),
+          );
+        });
   }
 }
 
-class TargetBubble extends StatelessWidget {
-  final String name;
-  final String goal;
-  final String current;
-  final String date;
+class HealthBubble extends StatelessWidget {
+  final String activity;
+  final String targetHours;
+  final String currentHours;
   final double progress;
   final String percent;
+  final String docId;
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController addController = TextEditingController();
 
-  TargetBubble(
-      {required this.name,
-      required this.goal,
-      required this.current,
-      required this.date,
+  HealthBubble(
+      {required this.activity,
+      required this.targetHours,
+      required this.currentHours,
+      required this.docId,
       Key? key})
-      : progress = double.parse(current) / double.parse(goal),
-        percent = (double.parse(current) / double.parse(goal) * 100)
-            .toStringAsFixed(2),
+      : progress = double.parse(currentHours) / double.parse(targetHours),
+        percent = (double.parse(currentHours) / double.parse(targetHours) * 100)
+            .toStringAsFixed(0),
         super(key: key);
+
+  fo(
+    String addOn,
+  ) {
+    var uid = loggedInUser!.uid;
+    _firestore.collection('healthTasks').doc(docId).update({
+      'current':
+          (double.parse(currentHours) + double.parse(addOn)).toStringAsFixed(0)
+    }).catchError((e) => print(e));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,30 +162,26 @@ class TargetBubble extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CircularPercentIndicator(
-              radius: 120.0,
-              lineWidth: 13.0,
-              animation: true,
-              percent: progress,
-              center: Text(
-                "$percent%",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-              ),
-              footer: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-                ),
-              ),
-              circularStrokeCap: CircularStrokeCap.round,
-              progressColor: Colors.tealAccent,
-            ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: LinearPercentIndicator(
+                    width: 140.0,
+                    lineHeight: 14.0,
+                    percent: progress >= 1 ? 1 : progress,
+                    center: Text(
+                      progress >= 1 ? "Done" : "$percent%",
+                      style: new TextStyle(fontSize: 12.0),
+                    ),
+                    trailing: Icon(Icons.mood),
+                    linearStrokeCap: LinearStrokeCap.roundAll,
+                    backgroundColor: Colors.grey,
+                    progressColor: Colors.blue,
+                  ),
+                ),
                 Text(
-                  'Goal Amount: $goal',
+                  activity,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20.0,
@@ -173,7 +191,7 @@ class TargetBubble extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  'Current Amount: $current',
+                  'Target Hours: $targetHours',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20.0,
@@ -183,7 +201,7 @@ class TargetBubble extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  'Date: $date',
+                  'Current Hours: $currentHours',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20.0,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,11 +15,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _auth = FirebaseAuth.instance;
-  late User loggedInUser;
+  User? loggedInUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
-    var displayName = 'John Doe'; // retrieve loggedInUser.displayName here
+    var displayName =
+        loggedInUser!.displayName; // retrieve loggedInUser.displayName here
     return Scaffold(
       appBar: AppBar(
         title: Text('Track4U Home'),
@@ -31,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               margin: EdgeInsets.all(20),
               width: double.infinity,
-              child: Text('Welcome back, \n' + displayName,
+              child: Text('Welcome back, \n' + displayName!,
                   style: TextStyle(fontSize: 28)),
             ),
             TrackerPanel('Finance'),

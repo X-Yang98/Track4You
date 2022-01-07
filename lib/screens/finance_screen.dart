@@ -97,12 +97,14 @@ class FinanceGoalStream extends StatelessWidget {
           final goal = target['goal'];
           final current = target['current'];
           final date = target['date'];
+          final docId = target.reference.id;
 
           final targetBubble = TargetBubble(
             name: name,
             goal: goal,
             current: current,
             date: date,
+            docId: docId,
           );
           targetsBubbles.add(targetBubble);
         }
@@ -127,17 +129,30 @@ class TargetBubble extends StatelessWidget {
   final String date;
   final double progress;
   final String percent;
+  final String docId;
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController addController = TextEditingController();
 
   TargetBubble(
       {required this.name,
       required this.goal,
       required this.current,
       required this.date,
+      required this.docId,
       Key? key})
       : progress = double.parse(current) / double.parse(goal),
         percent = (double.parse(current) / double.parse(goal) * 100)
             .toStringAsFixed(2),
         super(key: key);
+
+  fo(
+    String addOn,
+  ) {
+    var uid = loggedInUser!.uid;
+    _firestore.collection('financialTasks').doc(docId).update({
+      current: (double.parse(current) + double.parse(addOn)).toStringAsFixed(2)
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,6 +216,45 @@ class TargetBubble extends StatelessWidget {
                     fontSize: 20.0,
                   ),
                 ),
+              ],
+            ),
+            AlertDialog(
+              scrollable: true,
+              title: Text('Add new Study Task'),
+              content: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: addController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Task Name',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                    child: Text("Add Task!"),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState?.save();
+                        fo(
+                          addController.text,
+                        );
+                        Navigator.pop(context);
+                      }
+                    })
               ],
             ),
           ],

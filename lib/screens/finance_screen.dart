@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+
 import 'add_finance_screen.dart';
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+User? loggedInUser;
 
 class FinanceScreen extends StatefulWidget {
   const FinanceScreen({Key? key}) : super(key: key);
@@ -15,12 +19,23 @@ class FinanceScreen extends StatefulWidget {
 }
 
 class _FinanceScreenState extends State<FinanceScreen> {
-  final _firestore = FirebaseFirestore.instance;
-  User? loggiedInUser = FirebaseAuth.instance.currentUser;
+  final _auth = FirebaseAuth.instance;
 
-  void getGoals() async {
-    final goals = await _firestore.collection('financeTasks').get();
-    for (var goal in goals.docs) {}
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    final User? user = _auth.currentUser;
+
+    try {
+      loggedInUser = user;
+      print(loggedInUser?.email);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -60,8 +75,12 @@ class FinanceGoalStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('financeTasks').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('financeTasks')
+          .where('uid', isEqualTo: loggedInUser!.uid)
+          .snapshots(),
       builder: (context, snapshot) {
+        print(snapshot.connectionState);
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(

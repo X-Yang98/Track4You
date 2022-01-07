@@ -184,7 +184,7 @@ class _AddFinanceScreenState extends State<AddFinanceScreen> {
                   _firestore.collection('financeTasks').add(
                     {
                       'name': name,
-                      'user': loggedInUser!.email,
+                      'uid': loggedInUser!.uid,
                       'goal': goalAmount,
                       'current': currentAmount,
                       'date': date,

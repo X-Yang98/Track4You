@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'add_finance_screen.dart';
 
 class FinanceScreen extends StatefulWidget {
@@ -14,6 +15,14 @@ class FinanceScreen extends StatefulWidget {
 }
 
 class _FinanceScreenState extends State<FinanceScreen> {
+  final _firestore = FirebaseFirestore.instance;
+  User? loggiedInUser = FirebaseAuth.instance.currentUser;
+
+  void getGoals() async {
+    final goals = await _firestore.collection('financeTasks').get();
+    for (var goal in goals.docs) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

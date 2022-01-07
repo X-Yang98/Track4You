@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AddFinanceScreen extends StatefulWidget {
   const AddFinanceScreen({Key? key}) : super(key: key);
@@ -13,12 +13,13 @@ class AddFinanceScreen extends StatefulWidget {
 }
 
 class _AddFinanceScreenState extends State<AddFinanceScreen> {
-  // final _auth = FirebaseAuth.instance;
-
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
   late String name;
   late String goalAmount;
   late String currentAmount;
   late String date;
+  User? loggedInUser = FirebaseAuth.instance.currentUser;
 
   // @override
   // void initState() {
@@ -180,7 +181,14 @@ class _AddFinanceScreenState extends State<AddFinanceScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  // _firestore.collection('financeTasks').add({'goal': goalAmount, 'current': currentAmount, 'date': date,},);
+                  _firestore.collection('financeTasks').add(
+                    {
+                      'user': loggedInUser!.email,
+                      'goal': goalAmount,
+                      'current': currentAmount,
+                      'date': date,
+                    },
+                  );
                   Navigator.pop(context);
                 },
                 child: Text(

@@ -23,8 +23,15 @@ class LeetCodeChart extends StatelessWidget {
         backgroundColor: Colors.white,
         center: Text(
           (progress * 100).toStringAsPrecision(3) + '%',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 25.0, color: Colors.white),
+          style: (progress > 60
+              ? TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  color: Colors.white)
+              : TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  color: Colors.black87)),
         ),
         //progressColor: Color.fromRGBO(0, 153, 204, 0.7),
       ),

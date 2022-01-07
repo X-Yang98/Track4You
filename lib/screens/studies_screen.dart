@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:track_4_you/studyProgressCircle.dart';
 import 'package:track_4_you/studyTaskBox.dart';
 
 class StudiesScreen extends StatefulWidget {
@@ -67,8 +68,10 @@ class StudiesScreenState extends State<StudiesScreen> {
         backgroundColor: Colors.grey[850],
       ),
       body: SingleChildScrollView(
+        padding: EdgeInsets.all(10),
         child: Column(
           children: [
+            StudyProgressCircle(calculateProgress()),
             ...studyTasks.map((doc) {
               return StudyTaskBox(doc, completeTask);
             }).toList()
@@ -156,5 +159,17 @@ class StudiesScreenState extends State<StudiesScreen> {
             ],
           );
         });
+  }
+
+  double calculateProgress() {
+    var counter = 0;
+    for (QueryDocumentSnapshot doc in studyTasks) {
+      if (doc['completed']) {
+        counter++;
+      }
+    }
+    double doubly = counter / studyTasks.length;
+
+    return doubly;
   }
 }

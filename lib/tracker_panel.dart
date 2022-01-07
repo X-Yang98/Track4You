@@ -44,13 +44,9 @@ class TrackerPanel extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                TextButton(
-                    child: const Text('STATS',
-                        style: TextStyle(color: Color(0xFFFFFFFF))),
-                    onPressed: () => navigation(category)),
                 const SizedBox(width: 8),
                 TextButton(
-                  child: const Text('TASKS',
+                  child: const Text('VIEW',
                       style: TextStyle(color: Color(0xFFFFFFFF))),
                   onPressed: () => navigation(category),
                 ),

@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:track_4_you/tracker_panel.dart';
 
+import 'finance_screen.dart';
+import 'health_screen.dart';
+import 'leetcode_screen.dart';
+import 'studies_screen.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
@@ -16,6 +21,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _auth = FirebaseAuth.instance;
   User? loggedInUser = FirebaseAuth.instance.currentUser;
+
+  void navigateTo(String screenId) {
+    if (screenId == 'Finance') {
+      Navigator.pushNamed(context, FinanceScreen.id);
+    } else if (screenId == 'Health') {
+      Navigator.pushNamed(context, HealthScreen.id);
+    } else if (screenId == 'Studies') {
+      Navigator.pushNamed(context, StudiesScreen.id);
+    } else if (screenId == 'Leetcode') {
+      Navigator.pushNamed(context, LeetcodeScreen.id);
+    } else {
+      Navigator.pushNamed(context, MyHomePage.id);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +55,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Welcome back, \n' + displayName!,
                   style: TextStyle(fontSize: 28)),
             ),
-            TrackerPanel('Finance'),
-            TrackerPanel('Studies'),
-            TrackerPanel('Health'),
-            TrackerPanel('Leetcode'),
+            TrackerPanel('Finance', navigateTo),
+            TrackerPanel('Studies', navigateTo),
+            TrackerPanel('Health', navigateTo),
+            TrackerPanel('Leetcode', navigateTo),
           ],
         ),
       ),

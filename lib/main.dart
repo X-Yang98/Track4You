@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:track_4_you/screens/finance_screen.dart';
+import 'package:track_4_you/screens/health_screen.dart';
+import 'package:track_4_you/screens/leetcode_screen.dart';
 import 'package:track_4_you/screens/login_screen.dart';
 import 'package:track_4_you/screens/register_screen.dart';
 import 'package:track_4_you/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:track_4_you/screens/studies_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +40,10 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         RegisterScreen.id: (context) => RegisterScreen(),
         MyHomePage.id: (context) => MyHomePage(),
+        FinanceScreen.id: (context) => FinanceScreen(),
+        LeetcodeScreen.id: (context) => LeetcodeScreen(),
+        HealthScreen.id: (context) => HealthScreen(),
+        StudiesScreen.id: (context) => StudiesScreen(),
       },
     );
   }

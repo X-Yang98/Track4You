@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TrackerPanel extends StatelessWidget {
+  Function navigation;
   String category = "";
   final subtitleMap = {
     "Finance": [
@@ -25,9 +26,7 @@ class TrackerPanel extends StatelessWidget {
     ],
   };
 
-  TrackerPanel(String category) {
-    this.category = category;
-  }
+  TrackerPanel(this.category, this.navigation);
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +45,9 @@ class TrackerPanel extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(
-                  child: const Text('STATS',
-                      style: TextStyle(color: Color(0xFFFFFFFF))),
-                  onPressed: () {/* ... */},
-                ),
+                    child: const Text('STATS',
+                        style: TextStyle(color: Color(0xFFFFFFFF))),
+                    onPressed: () => navigation(category)),
                 const SizedBox(width: 8),
                 TextButton(
                   child: const Text('ADD TASK',

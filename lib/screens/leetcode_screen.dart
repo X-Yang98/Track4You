@@ -5,14 +5,14 @@ import 'package:track_4_you/leetCodeChart.dart';
 import 'package:track_4_you/studyProgressCircle.dart';
 import 'package:track_4_you/studyTaskBox.dart';
 
-class Leetcode extends StatefulWidget {
+class LeetcodeScreen extends StatefulWidget {
   static const String id = 'leetcode_screen';
   State<StatefulWidget> createState() {
     return LeetcodeState();
   }
 }
 
-class LeetcodeState extends State<Leetcode> {
+class LeetcodeState extends State<LeetcodeScreen> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   User? loggedInUser = FirebaseAuth.instance.currentUser;

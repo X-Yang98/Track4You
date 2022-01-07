@@ -170,6 +170,10 @@ class StudiesScreenState extends State<StudiesScreen> {
     }
     double doubly = counter / studyTasks.length;
 
+    if (doubly.isNaN) {
+      return 0;
+    }
+
     return doubly;
   }
 }

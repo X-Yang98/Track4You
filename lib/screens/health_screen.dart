@@ -48,7 +48,6 @@ class _HealthScreenState extends State<HealthScreen> {
             HealthGoalStream(),
             TextField(
               textAlign: TextAlign.center,
-              decoration: ,
             )
           ],
         ),

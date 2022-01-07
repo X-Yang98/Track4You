@@ -8,8 +8,10 @@ class FinanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text('Finances'),
+        backgroundColor: Colors.grey[850],
       ),
       body: Container(
         child: Text('Page content goes here'),

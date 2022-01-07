@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[900],
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Form(
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text(
                   'Track4You',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25),
+                  style: TextStyle(fontSize: 25, color: Colors.white),
                 ),
               ),
               SizedBox(
@@ -44,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return ("Please enter your email");
@@ -60,6 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 decoration: InputDecoration(
                   hintText: 'Enter your email',
+                  hintStyle: TextStyle(color: Colors.white),
+                  fillColor: Colors.grey[850],
+                  filled: true,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   border: OutlineInputBorder(
@@ -84,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: passwordController,
                 obscureText: true,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   RegExp regex = new RegExp(r'^.{6,}$');
                   if (value!.isEmpty) {
@@ -99,6 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 decoration: InputDecoration(
                   hintText: 'Enter your password',
+                  hintStyle: TextStyle(color: Colors.white),
+                  fillColor: Colors.grey[850],
+                  filled: true,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   border: OutlineInputBorder(

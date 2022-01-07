@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[900],
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Form(
@@ -33,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Text(
                   'Track4You',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25),
+                  style: TextStyle(fontSize: 25, color: Colors.white),
                 ),
               ),
               SizedBox(
@@ -42,6 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 keyboardType: TextInputType.name,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 controller: nameController,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -53,7 +54,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   nameController.text = value!;
                 },
                 decoration: InputDecoration(
-                  hintText: 'Enter your First Name',
+                  hintText: 'Enter your name',
+                  hintStyle: TextStyle(color: Colors.white),
+                  fillColor: Colors.grey[850],
+                  filled: true,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   border: OutlineInputBorder(
@@ -61,12 +65,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueAccent, width: 1.0),
+                        BorderSide(color: Colors.lightBlueAccent, width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueAccent, width: 2.0),
+                        BorderSide(color: Colors.lightBlueAccent, width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                 ),
@@ -77,6 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 controller: emailController,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -94,6 +99,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
                 decoration: InputDecoration(
                   hintText: 'Enter your email',
+                  hintStyle: TextStyle(color: Colors.white),
+                  fillColor: Colors.grey[850],
+                  filled: true,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   border: OutlineInputBorder(
@@ -101,12 +109,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueAccent, width: 1.0),
+                        BorderSide(color: Colors.lightBlueAccent, width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueAccent, width: 2.0),
+                        BorderSide(color: Colors.lightBlueAccent, width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                 ),
@@ -117,6 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 obscureText: true,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 controller: passwordController,
                 validator: (value) {
                   RegExp regex = new RegExp(r'^.{6,}$');
@@ -133,6 +142,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
                 decoration: InputDecoration(
                   hintText: 'Enter your password (Min. 6 characters)',
+                  hintStyle: TextStyle(color: Colors.white),
+                  fillColor: Colors.grey[850],
+                  filled: true,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   border: OutlineInputBorder(
@@ -140,12 +152,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueAccent, width: 1.0),
+                        BorderSide(color: Colors.lightBlueAccent, width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueAccent, width: 2.0),
+                        BorderSide(color: Colors.lightBlueAccent, width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                 ),
@@ -156,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.0),
                 child: Material(
-                  color: Colors.blueAccent,
+                  color: Colors.lightBlueAccent,
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                   elevation: 5.0,
                   child: MaterialButton(
@@ -189,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Material(
-                  color: Colors.blueAccent,
+                  color: Colors.lightBlueAccent,
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                   elevation: 5.0,
                   child: MaterialButton(

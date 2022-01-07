@@ -41,8 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
     var displayName =
         loggedInUser!.displayName; // retrieve loggedInUser.displayName here
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text('Track4U Home'),
+        backgroundColor: Colors.grey[850],
       ),
       body: Container(
         child: Column(
@@ -53,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: EdgeInsets.all(20),
               width: double.infinity,
               child: Text('Welcome back, \n' + displayName!,
-                  style: TextStyle(fontSize: 28)),
+                  style: TextStyle(fontSize: 28, color: Colors.white)),
             ),
             TrackerPanel('Finance', navigateTo),
             TrackerPanel('Studies', navigateTo),

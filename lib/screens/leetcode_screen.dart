@@ -6,7 +6,9 @@ class LeetcodeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
+        backgroundColor: Colors.grey[850],
         title: Text('Leetcode'),
       ),
       body: Container(

@@ -6,8 +6,10 @@ class HealthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text('Health'),
+        backgroundColor: Colors.grey[850],
       ),
       body: Container(
         child: Text('Page content goes here'),

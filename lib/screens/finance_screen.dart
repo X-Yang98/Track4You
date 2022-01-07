@@ -59,62 +59,45 @@ class FinanceGoalStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return StreamBuilder<QuerySnapshot>(
-    //   stream: _firestore.collection('messages').snapshots(),
-    //   builder: (context, snapshot) {
-    //     if (!snapshot.hasData) {
-    //       return Center(
-    //         child: CircularProgressIndicator(
-    //           backgroundColor: Colors.lightBlueAccent,
-    //         ),
-    //       );
-    //     }
-    //     List<TargetBubble> targetsBubbles = [];
-    //     final targets = snapshot.data!.docs
-    //         .reversed; // reverse order of list --> new message at bottom of list
-    //
-    //     for (var target in targets) {
-    //       final goal = target['goal'];
-    //       final current = target['current'];
-    //       final date = target['date'];
-    //
-    //       final targetBubble = TargetBubble(
-    //         goal: goal,
-    //         current: current,
-    //         date: date,
-    //       );
-    //       targetsBubbles.add(targetBubble);
-    //     }
-    return Expanded(
-      child: ListView(
-        padding: EdgeInsets.symmetric(
-          vertical: 10.0,
-        ),
-        children: //targets,
-            [
-          TargetBubble(
-            name: 'Exchange',
-            goal: '1000',
-            current: '600',
-            date: '21-1-22',
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('financeTasks').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlueAccent,
+            ),
+          );
+        }
+        List<TargetBubble> targetsBubbles = [];
+        final targets = snapshot.data!.docs
+            .reversed; // reverse order of list --> new message at bottom of list
+
+        for (var target in targets) {
+          final name = target['name'];
+          final goal = target['goal'];
+          final current = target['current'];
+          final date = target['date'];
+
+          final targetBubble = TargetBubble(
+            name: name,
+            goal: goal,
+            current: current,
+            date: date,
+          );
+          targetsBubbles.add(targetBubble);
+        }
+        return Expanded(
+          child: ListView(
+            padding: EdgeInsets.symmetric(
+              vertical: 10.0,
+            ),
+            children: //targets,
+                targetsBubbles,
           ),
-          TargetBubble(
-            name: 'New Computer',
-            goal: '500',
-            current: '400',
-            date: '1-1-99',
-          ),
-          TargetBubble(
-            name: 'Hostel',
-            goal: '200',
-            current: '100',
-            date: '4-3-70',
-          ),
-        ],
-      ),
+        );
+      },
     );
-    //   },
-    // );
   }
 }
 

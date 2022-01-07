@@ -183,6 +183,7 @@ class _AddFinanceScreenState extends State<AddFinanceScreen> {
                 onPressed: () {
                   _firestore.collection('financeTasks').add(
                     {
+                      'name': name,
                       'user': loggedInUser!.email,
                       'goal': goalAmount,
                       'current': currentAmount,

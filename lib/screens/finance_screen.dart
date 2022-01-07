@@ -149,10 +149,9 @@ class TargetBubble extends StatelessWidget {
     String addOn,
   ) {
     var uid = loggedInUser!.uid;
-    _firestore.collection('financeTasks').doc(docId).update({
-      'current':
-          (double.parse(current) + double.parse(addOn)).toStringAsFixed(2)
-    }).catchError((e) => print(e));
+    _firestore.collection('financialTasks').doc(docId).update({
+      current: (double.parse(current) + double.parse(addOn)).toStringAsFixed(2)
+    });
   }
 
   @override
@@ -217,64 +216,50 @@ class TargetBubble extends StatelessWidget {
                     fontSize: 20.0,
                   ),
                 ),
-                TextButton(
-                    child: Text(
-                      'Add current amount',
-                    ),
-                    onPressed: () => updateFinanceTask(context)),
+              ],
+            ),
+            AlertDialog(
+              scrollable: true,
+              title: Text('Add new Study Task'),
+              content: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: addController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Task Name',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                    child: Text("Add Task!"),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState?.save();
+                        fo(
+                          addController.text,
+                        );
+                        Navigator.pop(context);
+                      }
+                    })
               ],
             ),
           ],
         ),
       ),
     );
-  }
-
-  updateFinanceTask(BuildContext context) {
-    TextEditingController addController = TextEditingController();
-
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            scrollable: true,
-            title: Text('Add to current amount'),
-            content: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: addController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Add to current amount',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            actions: [
-              ElevatedButton(
-                  child: Text("Add amount"),
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState?.save();
-                      fo(
-                        addController.text,
-                      );
-                      Navigator.pop(context);
-                    }
-                  })
-            ],
-          );
-        });
   }
 }

@@ -50,9 +50,9 @@ class TrackerPanel extends StatelessWidget {
                     onPressed: () => navigation(category)),
                 const SizedBox(width: 8),
                 TextButton(
-                  child: const Text('ADD TASK',
+                  child: const Text('TASKS',
                       style: TextStyle(color: Color(0xFFFFFFFF))),
-                  onPressed: () {/* ... */},
+                  onPressed: () => navigation(category),
                 ),
                 const SizedBox(width: 8),
               ],

@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:track_4_you/tracker_panel.dart';
 
 import 'finance_screen.dart';
@@ -48,19 +46,24 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.all(20),
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
               width: double.infinity,
-              child: Text('Welcome back, \n' + displayName!,
-                  style: TextStyle(fontSize: 28, color: Colors.white)),
+              child: Text('Welcome back, ' + displayName! + '!',
+                  style: TextStyle(fontSize: 32, color: Colors.white)),
             ),
-            TrackerPanel('Finance', navigateTo),
-            TrackerPanel('Studies', navigateTo),
-            TrackerPanel('Health', navigateTo),
-            TrackerPanel('Leetcode', navigateTo),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+                children: <Widget>[
+                  TrackerPanel('Finance', navigateTo),
+                  TrackerPanel('Studies', navigateTo),
+                  TrackerPanel('Health', navigateTo),
+                  TrackerPanel('Leetcode', navigateTo),
+                ],
+              ),
+            ),
           ],
         ),
       ),

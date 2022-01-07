@@ -6,7 +6,7 @@ class TrackerPanel extends StatelessWidget {
   final subtitleMap = {
     "Finance": [
       "Track your finances.",
-      Icon(Icons.money),
+      Icon(Icons.attach_money),
       Color.fromRGBO(255, 204, 102, 0.7)
     ],
     "Studies": [
@@ -38,8 +38,14 @@ class TrackerPanel extends StatelessWidget {
           children: <Widget>[
             ListTile(
               leading: subtitleMap[category]![1] as Widget,
-              title: Text(category),
-              subtitle: Text(subtitleMap[category]![0] as String),
+              title: Text(
+                category,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                subtitleMap[category]![0] as String,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

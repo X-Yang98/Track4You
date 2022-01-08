@@ -28,7 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               height: 250.0,
             ),
             Text(
-              'Task4U',
+              'Track4U',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 40, color: Colors.white),
             ),

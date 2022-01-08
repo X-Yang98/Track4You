@@ -140,7 +140,7 @@ class HealthBubble extends StatelessWidget {
     String addOn,
   ) {
     _firestore.collection('healthTasks').doc(docId).update({
-      'current':
+      'currentMins':
           (double.parse(currentMins) + double.parse(addOn)).toStringAsFixed(0)
     });
   }
@@ -206,9 +206,62 @@ class HealthBubble extends StatelessWidget {
                 ),
               ],
             ),
+            TextButton(
+                child: Text(
+                  'Add new completions',
+                ),
+                onPressed: () => updateHealthTask(context)),
           ],
         ),
       ),
     );
+  }
+
+  updateHealthTask(BuildContext context) {
+    TextEditingController addController = TextEditingController();
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            scrollable: true,
+            title: Text('Add new completions'),
+            content: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      controller: addController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Add to current mins',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                  child: Text("Add mins"),
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState?.save();
+                      fo(
+                        addController.text,
+                      );
+                      Navigator.pop(context);
+                    }
+                  })
+            ],
+          );
+        });
   }
 }

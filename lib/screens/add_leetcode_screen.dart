@@ -120,7 +120,7 @@ class _AddLeetcodeScreenState extends State<AddLeetcodeScreen> {
                       'difficulty': difficulty,
                       'uid': loggedInUser!.uid,
                       'target': target,
-                      'completed': 0,
+                      'completed': "0",
                     },
                   );
                   Navigator.pop(context);

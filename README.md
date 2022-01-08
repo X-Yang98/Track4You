@@ -15,3 +15,7 @@ If you are interested to run the project you can clone the project and set it up
 2. Update the firebase API key into google-services.json file in android/app/src
 
 3. flutter run
+
+## Know more!
+
+You can check out our devpost here : https://devpost.com/software/track4you

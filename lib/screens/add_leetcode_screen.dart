@@ -13,11 +13,9 @@ class AddLeetcodeScreen extends StatefulWidget {
 }
 
 class _AddLeetcodeScreenState extends State<AddLeetcodeScreen> {
-  final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-  late String easy;
-  late String medium;
-  late String hard;
+  late String target;
+  late String difficulty;
   User? loggedInUser = FirebaseAuth.instance.currentUser;
 
   // @override
@@ -59,7 +57,7 @@ class _AddLeetcodeScreenState extends State<AddLeetcodeScreen> {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Easy Questions:',
+                        'Target for the week:',
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                     ),
@@ -68,7 +66,7 @@ class _AddLeetcodeScreenState extends State<AddLeetcodeScreen> {
                     ),
                     TextField(
                       onChanged: (value) {
-                        easy = value;
+                        target = value;
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -90,7 +88,7 @@ class _AddLeetcodeScreenState extends State<AddLeetcodeScreen> {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Medium Questions:',
+                        'Problem difficulty:',
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                     ),
@@ -99,38 +97,7 @@ class _AddLeetcodeScreenState extends State<AddLeetcodeScreen> {
                     ),
                     TextField(
                       onChanged: (value) {
-                        medium = value;
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        hintText: 'Type number here...',
-                        fillColor: Colors.purpleAccent,
-                        filled: true,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Hard Questions:',
-                        style: TextStyle(fontSize: 25, color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TextField(
-                      onChanged: (value) {
-                        hard = value;
+                        difficulty = value;
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -148,12 +115,12 @@ class _AddLeetcodeScreenState extends State<AddLeetcodeScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  _firestore.collection('financeTasks').add(
+                  _firestore.collection('leetcode').add(
                     {
-                      'easy': easy,
+                      'difficulty': difficulty,
                       'uid': loggedInUser!.uid,
-                      'medium': medium,
-                      'hard': hard,
+                      'target': target,
+                      'completed': 0,
                     },
                   );
                   Navigator.pop(context);

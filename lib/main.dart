@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         FinanceScreen.id: (context) => FinanceScreen(),
         LeetcodeScreen.id: (context) => LeetcodeScreen(),
         HealthScreen.id: (context) => HealthScreen(),
-        AddHealthScreen.id: (context) => HealthScreen(),
+        AddHealthScreen.id: (context) => AddHealthScreen(),
         StudiesScreen.id: (context) => StudiesScreen(),
         AddFinanceScreen.id: (context) => AddFinanceScreen(),
         AddLeetcodeScreen.id: (context) => AddLeetcodeScreen(),

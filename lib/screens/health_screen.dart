@@ -32,10 +32,7 @@ class _HealthScreenState extends State<HealthScreen> {
 
     try {
       loggedInUser = user;
-      print(loggedInUser?.email);
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
@@ -93,14 +90,14 @@ class HealthGoalStream extends StatelessWidget {
 
           for (var health in healths) {
             final activity = health['activity'];
-            final targetHours = health['targetHours'];
-            final currentHours = health['targetHours'];
+            final targetMins = health['targetMins'];
+            final currentMins = health['currentMins'];
             final docId = health.reference.id;
 
             final healthBubble = HealthBubble(
               activity: activity,
-              targetHours: targetHours,
-              currentHours: currentHours,
+              targetMins: targetMins,
+              currentMins: currentMins,
               docId: docId,
             );
             healthBubbles.add(healthBubble);
@@ -120,8 +117,8 @@ class HealthGoalStream extends StatelessWidget {
 
 class HealthBubble extends StatelessWidget {
   final String activity;
-  final String targetHours;
-  final String currentHours;
+  final String targetMins;
+  final String currentMins;
   final double progress;
   final String percent;
   final String docId;
@@ -130,27 +127,27 @@ class HealthBubble extends StatelessWidget {
 
   HealthBubble(
       {required this.activity,
-      required this.targetHours,
-      required this.currentHours,
+      required this.targetMins,
+      required this.currentMins,
       required this.docId,
       Key? key})
-      : progress = double.parse(currentHours) / double.parse(targetHours),
-        percent = (double.parse(currentHours) / double.parse(targetHours) * 100)
+      : progress = double.parse(currentMins) / double.parse(targetMins),
+        percent = (double.parse(currentMins) / double.parse(targetMins) * 100)
             .toStringAsFixed(0),
         super(key: key);
 
   fo(
     String addOn,
   ) {
-    var uid = loggedInUser!.uid;
     _firestore.collection('healthTasks').doc(docId).update({
       'current':
-          (double.parse(currentHours) + double.parse(addOn)).toStringAsFixed(0)
-    }).catchError((e) => print(e));
+          (double.parse(currentMins) + double.parse(addOn)).toStringAsFixed(0)
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    //print(currentMins);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
       child: Container(
@@ -172,7 +169,7 @@ class HealthBubble extends StatelessWidget {
                     percent: progress >= 1 ? 1 : progress,
                     center: Text(
                       progress >= 1 ? "Done" : "$percent%",
-                      style: new TextStyle(fontSize: 12.0),
+                      style: TextStyle(fontSize: 12.0),
                     ),
                     trailing: Icon(Icons.mood),
                     linearStrokeCap: LinearStrokeCap.roundAll,
@@ -191,7 +188,7 @@ class HealthBubble extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  'Target Hours: $targetHours',
+                  'Target Mins: $targetMins',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20.0,
@@ -201,7 +198,7 @@ class HealthBubble extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  'Current Hours: $currentHours',
+                  'Current Mins: $currentMins',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20.0,

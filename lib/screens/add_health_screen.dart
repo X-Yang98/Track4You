@@ -16,8 +16,8 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late String activity;
-  late String targetHours;
-  late String currentHours;
+  late String targetMins;
+  late String currentMins;
   User? loggedInUser = FirebaseAuth.instance.currentUser;
 
   // @override
@@ -42,9 +42,10 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text('Add Health Goal'),
+        title: Text('Add Weekly Health Goal'),
         backgroundColor: Colors.grey[850],
       ),
       body: SafeArea(
@@ -90,7 +91,7 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Target Hours:',
+                        'Target Mins:',
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                     ),
@@ -99,7 +100,7 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
                     ),
                     TextField(
                       onChanged: (value) {
-                        targetHours = value;
+                        targetMins = value;
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -107,7 +108,7 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
                         ),
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
-                        hintText: 'Type target hours here...',
+                        hintText: 'Type target mins here...',
                         fillColor: Colors.tealAccent,
                         filled: true,
                       ),
@@ -121,7 +122,7 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Current Hours:',
+                        'Current Mins:',
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                     ),
@@ -130,7 +131,7 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
                     ),
                     TextField(
                       onChanged: (value) {
-                        currentHours = value;
+                        currentMins = value;
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -138,7 +139,7 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
                         ),
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
-                        hintText: 'Type current hours here...',
+                        hintText: 'Type current Mins here...',
                         fillColor: Colors.tealAccent,
                         filled: true,
                       ),
@@ -152,8 +153,8 @@ class _AddHealthScreenState extends State<AddHealthScreen> {
                     {
                       'activity': activity,
                       'uid': loggedInUser!.uid,
-                      'targetHours': targetHours,
-                      'currentHours': currentHours,
+                      'targetMins': targetMins,
+                      'currentMins': currentMins,
                     },
                   );
                   Navigator.pop(context);

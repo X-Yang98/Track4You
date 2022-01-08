@@ -32,7 +32,6 @@ class _FinanceScreenState extends State<FinanceScreen> {
 
     try {
       loggedInUser = user;
-      print(loggedInUser?.email);
     } catch (e) {
       print(e);
     }
@@ -80,7 +79,6 @@ class FinanceGoalStream extends StatelessWidget {
           .where('uid', isEqualTo: loggedInUser!.uid)
           .snapshots(),
       builder: (context, snapshot) {
-        print(snapshot.connectionState);
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(
@@ -148,7 +146,6 @@ class TargetBubble extends StatelessWidget {
   fo(
     String addOn,
   ) {
-    var uid = loggedInUser!.uid;
     _firestore.collection('financeTasks').doc(docId).update({
       'current':
           (double.parse(current) + double.parse(addOn)).toStringAsFixed(0)
